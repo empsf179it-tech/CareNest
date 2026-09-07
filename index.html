@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareNest - Premium Caregiving Services</title>
+    <link rel="icon" href="assets/images/website-logo.png" type="image/png">
+    <meta name="description" content="CareNest provides trusted, compassionate and personalized caregiving support designed around the comfort, independence and wellbeing of every individual.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Homepage Specific Styles */
+        
+        /* Services Section */
+        .services-grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            padding-bottom: 2rem;
+        }
+        @media (max-width: 1200px) {
+            .services-grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .services-grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .service-card {
+            height: 500px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .service-card:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .service-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            transition: var(--transition-smooth);
+            opacity: 0.6;
+        }
+        .service-card:hover img {
+            opacity: 0.8;
+            transform: scale(1.05);
+        }
+        .service-card-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2.5rem;
+            background: linear-gradient(to top, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 100%);
+            z-index: 2;
+        }
+        .service-card-content h3 {
+            font-size: 1.35rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .service-number {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            color: var(--accent-champagne);
+            opacity: 0.5;
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            z-index: 2;
+            transition: var(--transition-smooth);
+        }
+        .service-card:hover .service-number {
+            opacity: 1;
+            transform: translateY(-10px);
+        }
+
+        /* How It Works - Vertical Journey */
+        .journey-section {
+            position: relative;
+            padding: 10rem 0;
+        }
+        .journey-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-light);
+            transform: translateX(-50%);
+        }
+        .journey-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: var(--accent-champagne);
+            height: 0%;
+            transition: height 0.1s;
+        }
+        .journey-step {
+            position: relative;
+            margin-bottom: 8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .journey-step:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+        .journey-content {
+            width: 40%;
+        }
+        .journey-number {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--text-muted);
+            z-index: 2;
+            transition: var(--transition-smooth);
+        }
+        .journey-step.active .journey-number {
+            border-color: var(--accent-champagne);
+            color: var(--accent-champagne);
+            box-shadow: 0 0 30px var(--accent-champagne-muted);
+            background: var(--bg-surface-elevated);
+        }
+
+        /* Caregivers Section */
+        .caregiver-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+        .caregiver-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--border-subtle);
+        }
+        .caregiver-img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+        }
+        .caregiver-info {
+            padding: 2rem;
+        }
+        .caregiver-role {
+            color: var(--accent-champagne);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Testimonials */
+        .testimonial-slider {
+            position: relative;
+            padding: 5rem 0;
+            overflow: hidden;
+        }
+        .testimonial-slide {
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+        }
+        .testimonial-slide.active {
+            opacity: 1;
+            position: relative;
+            pointer-events: auto;
+        }
+        .testimonial-quote {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1.3;
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .testimonial-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Appointment CTA */
+        .appointment-section {
+            background: #fff;
+            padding: 8rem 0;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .appointment-section h2, 
+        .appointment-section p {
+            color: #111 !important;
+        }
+        .form-select-custom {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            color: #111 !important;
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            padding: 1rem 0;
+            width: 100%;
+            appearance: none;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-align: center;
+        }
+        .form-select-custom:focus {
+            outline: none;
+            border-color: var(--accent-champagne);
+        }
+        .form-select-custom option {
+            background: #fff;
+            color: #111;
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+        .form-group {
+            margin-bottom: 3rem;
+        }
+        .form-label-large {
+            color: #444 !important;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        @media (max-width: 991.98px) {
+            .journey-line { left: 40px; transform: translateX(-50%); top: 0; bottom: 0; }
+            .journey-step { flex-direction: column !important; padding-left: 80px; margin-bottom: 4rem; align-items: flex-start; }
+            .journey-content { width: 100%; text-align: left !important; }
+            .journey-content.text-end { text-align: left !important; }
+            .journey-content p.ms-auto { margin-left: 0 !important; margin-right: auto !important; }
+            .journey-number { left: 40px; top: 0; transform: translateX(-50%); width: 60px; height: 60px; font-size: 1.5rem; }
+            .service-card { min-width: auto; height: 400px; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three.js Global Background -->
+    <div id="canvas-container" class="three-canvas-container"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-global" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                CARENEST
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-4">
+                    <li class="nav-item"><a class="nav-link active" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="caregivers.html">Caregivers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Family Resources</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="contact.html" class="btn-primary-custom" style="padding: 0.75rem 1.5rem;">Find Care &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <img src="assets/images/hero_bg.jpg" alt="Caregiver assisting elderly woman" class="hero-bg" id="heroImage">
+        <div class="hero-overlay"></div>
+        
+        <div class="container hero-content">
+            <div class="row">
+                <div class="col-lg-8">
+                    <span class="eyebrow gs-reveal">Personalized Care â€¢ Human Connection</span>
+                    <h1 class="display-1 text-dark mb-4 gs-reveal">Care That Feels<br>Like Home.</h1>
+                    <p class="lead text-secondary mb-5 gs-reveal">Trusted caregivers providing thoughtful support, meaningful companionship and everyday assistance â€” designed around the people you love.</p>
+                    
+                    <div class="d-flex flex-wrap gap-4 gs-reveal mb-5 pb-3">
+                        <a href="contact.html" class="btn-primary-custom">Find the Right Care &rarr;</a>
+                        <a href="services.html" class="btn-outline-custom">Explore Our Services</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="position-absolute bottom-0 start-0 w-100 p-5 z-2 d-none d-lg-block">
+            <div class="container d-flex justify-content-between align-items-end">
+                <div class="glass-card py-3 px-4 d-flex gap-4">
+                    <div>
+                        <div class="text-dark fw-bold">24/7 Support</div>
+                    </div>
+                    <div class="border-start border-secondary ps-4">
+                        <div class="text-dark fw-bold">Verified Caregivers</div>
+                    </div>
+                    <div class="border-start border-secondary ps-4">
+                        <div class="text-dark fw-bold">Personalized Plans</div>
+                    </div>
+                </div>
+                <div class="text-uppercase tracking-widest text-secondary" style="letter-spacing: 3px; font-size: 0.8rem;">
+                    Scroll to Discover &darr;
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Care Services -->
+    <section class="section bg-surface overflow-hidden">
+        <div class="container mb-5">
+            <div class="row">
+                <div class="col-lg-8 gs-reveal">
+                    <h2>Care Designed Around Real Life.</h2>
+                    <p>From everyday assistance to meaningful companionship, every care plan is built around individual needs.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Grid Container -->
+        <div class="container-fluid px-lg-5">
+            <div class="services-grid-container pb-5 gs-reveal">
+                
+                <div class="service-card" onclick="location.href='services.html'">
+                    <img src="assets/images/companion_care.jpg" alt="Companion Care">
+                    <div class="service-number">01</div>
+                    <div class="service-card-content">
+                        <h3>Companion Care</h3>
+                        <p class="mb-0 text-secondary">Conversation, companionship and meaningful daily interaction.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="location.href='services.html'">
+                    <img src="assets/images/personal_care.jpg" alt="Personal Care">
+                    <div class="service-number">02</div>
+                    <div class="service-card-content">
+                        <h3>Personal Care</h3>
+                        <p class="mb-0 text-secondary">Thoughtful assistance with everyday personal routines.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="location.href='services.html'">
+                    <img src="assets/images/senior_care.jpg" alt="Senior Care">
+                    <div class="service-number">03</div>
+                    <div class="service-card-content">
+                        <h3>Senior Care</h3>
+                        <p class="mb-0 text-secondary">Reliable support that helps older adults maintain independence.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="location.href='services.html'">
+                    <img src="assets/images/Respite Care.png" alt="Respite Care">
+                    <div class="service-number">04</div>
+                    <div class="service-card-content">
+                        <h3>Respite Care</h3>
+                        <p class="mb-0 text-secondary">Trusted temporary support that gives family caregivers time to recharge.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="location.href='services.html'">
+                    <img src="assets/images/Dementia Support.png" alt="Dementia Support">
+                    <div class="service-number">05</div>
+                    <div class="service-card-content">
+                        <h3>Dementia Support</h3>
+                        <p class="mb-0 text-secondary">Patient, respectful and structured daily assistance.</p>
+                    </div>
+                </div>
+
+                <div class="service-card" onclick="location.href='services.html'">
+                    <img src="assets/images/Post-Hospital Support.png" alt="Post-Hospital Support">
+                    <div class="service-number">06</div>
+                    <div class="service-card-content">
+                        <h3>Post-Hospital Support</h3>
+                        <p class="mb-0 text-secondary">Practical help during recovery and transition back home.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works (Vertical Journey) -->
+    <section class="journey-section container" id="journeySection">
+        <div class="text-center mb-5 pb-5 gs-reveal">
+            <h2>From First Conversation to Ongoing Care.</h2>
+        </div>
+        
+        <div class="position-relative">
+            <div class="journey-line">
+                <div class="journey-progress" id="journeyProgress"></div>
+            </div>
+
+            <div class="journey-step gs-step">
+            <div class="journey-content text-end">
+                <h3 class="text-accent">Tell Us What You Need</h3>
+                <p class="ms-auto">Share your family's situation, care requirements, and everyday routines. We start by listening to understand the complete picture.</p>
+            </div>
+            <div class="journey-number">01</div>
+            <div class="journey-content"></div>
+        </div>
+
+        <div class="journey-step gs-step">
+            <div class="journey-content">
+                <h3 class="text-accent">We Understand Your Family</h3>
+                <p>We create a thoughtful, personalized care plan designed to fit seamlessly into your life, prioritizing dignity and independence.</p>
+            </div>
+            <div class="journey-number">02</div>
+            <div class="journey-content"></div>
+        </div>
+
+        <div class="journey-step gs-step">
+            <div class="journey-content text-end">
+                <h3 class="text-accent">Meet Your Care Match</h3>
+                <p class="ms-auto">We introduce you to caregivers carefully selected based on personality compatibility, experience, and your specific care needs.</p>
+            </div>
+            <div class="journey-number">03</div>
+            <div class="journey-content"></div>
+        </div>
+
+        <div class="journey-step gs-step">
+            <div class="journey-content">
+                <h3 class="text-accent">Begin With Confidence</h3>
+                <p>Start care knowing you have a dedicated support team behind you. We handle the logistics so you can focus on your family.</p>
+            </div>
+            <div class="journey-number">04</div>
+            <div class="journey-content"></div>
+        </div>
+
+        <div class="journey-step gs-step">
+            <div class="journey-content text-end">
+                <h3 class="text-accent">We Stay Connected</h3>
+                <p class="ms-auto">Care needs evolve. Through regular communication and family updates, we ensure the care plan always meets your expectations.</p>
+            </div>
+            <div class="journey-number">05</div>
+            <div class="journey-content"></div>
+        </div>
+        </div>
+    </section>
+
+    <!-- Caregivers -->
+    <section class="section bg-surface-elevated">
+        <div class="container">
+            <div class="row mb-5 align-items-end gs-reveal">
+                <div class="col-lg-6">
+                    <h2>The People Behind the Care.</h2>
+                    <p class="mb-0">Great care begins with great people. Our caregivers are carefully selected, trained and matched with families based on personality, experience and care needs.</p>
+                </div>
+                <div class="col-lg-6 text-lg-end mt-4 mt-lg-0">
+                    <a href="caregivers.html" class="btn-outline-custom">View All Caregivers</a>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 gs-reveal">
+                    <div class="caregiver-card">
+                        <img src="assets/images/portrait_maya.jpg" alt="Maya" class="caregiver-img">
+                        <div class="caregiver-info">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h3 class="mb-0">Maya</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-sage)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <div class="caregiver-role">Senior Care Specialist</div>
+                            <p class="text-sm mb-4">Patient, observant, and deeply respectful of routines. Specializes in helping older adults maintain their independence.</p>
+                            <a href="caregivers.html" class="text-accent text-decoration-none fw-medium">Meet Caregiver &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gs-reveal" style="transition-delay: 0.1s">
+                    <div class="caregiver-card">
+                        <img src="assets/images/portrait_daniel.jpg" alt="Daniel" class="caregiver-img">
+                        <div class="caregiver-info">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h3 class="mb-0">Daniel</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-sage)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <div class="caregiver-role">Companion Caregiver</div>
+                            <p class="text-sm mb-4">Warm, conversational, and energetic. Excels at bringing joy and meaningful interaction into everyday life.</p>
+                            <a href="caregivers.html" class="text-accent text-decoration-none fw-medium">Meet Caregiver &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 gs-reveal" style="transition-delay: 0.2s">
+                    <div class="caregiver-card">
+                        <img src="assets/images/portrait_sophia.jpg" alt="Sophia" class="caregiver-img">
+                        <div class="caregiver-info">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h3 class="mb-0">Sophia</h3>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-sage)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            </div>
+                            <div class="caregiver-role">Personal Care Specialist</div>
+                            <p class="text-sm mb-4">Gentle, highly trained, and dignity-focused. Provides essential daily support with the utmost respect.</p>
+                            <a href="caregivers.html" class="text-accent text-decoration-none fw-medium">Meet Caregiver &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" id="testimonialSection">
+        <div class="container">
+            <div class="text-center mb-5 pb-4 gs-reveal">
+                <h2>What Families Say</h2>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-md-6 gs-reveal">
+                    <div class="glass-card h-100 p-5 d-flex flex-column justify-content-between">
+                        <div class="testimonial-quote text-start text-dark mb-5" style="font-size: 1.8rem; line-height: 1.4;">â€œCareNest gave our family something we didn't realize we needed â€” peace of mind.â€</div>
+                        <div class="d-flex justify-content-center align-items-center gap-3 mt-auto w-100">
+                            <div class="text-center">
+                                <div class="fw-bold text-dark">Sarah Jenkins</div>
+                                <div class="text-accent text-sm">Daughter â€¢ Companion Care</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 gs-reveal" style="transition-delay: 0.1s">
+                    <div class="glass-card h-100 p-5 d-flex flex-column justify-content-between">
+                        <div class="testimonial-quote text-start text-dark mb-5" style="font-size: 1.8rem; line-height: 1.4;">â€œThe caregivers treat my father with such profound dignity and respect. It's truly life-changing.â€</div>
+                        <div class="d-flex justify-content-center align-items-center gap-3 mt-auto w-100">
+                            <div class="text-center">
+                                <div class="fw-bold text-dark">Michael T.</div>
+                                <div class="text-accent text-sm">Son â€¢ Senior Care</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Appointment CTA -->
+    <section class="appointment-section gs-reveal" style="background-color: #ffffff; padding: 4rem 0; text-align: center;">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 mx-auto text-center">
+                    <h2 class="display-3 mb-4 fw-bold" style="color: #111 !important; text-align: center !important;">Let's Find the Right<br>Care Together.</h2>
+                    <div class="d-flex justify-content-center w-100">
+                        <p class="lead fw-bold mb-5" style="color: #333 !important; text-align: center !important; margin: 0 auto; max-width: 700px;">Tell us a little about what you need and our care team will help you explore the right support.</p>
+                    </div>
+                    
+                    <form action="contact.html" method="GET" class="row justify-content-center text-center">
+                        <div class="col-md-5 form-group mb-3">
+                            <label class="form-label-large fw-bold mb-2" style="color: #111 !important;">Iâ€™m looking for care for:</label>
+                            <select class="form-select-custom w-100" name="care_for" style="color: #000 !important; text-align: center; font-weight: bold;">
+                                <option value="parent">A Parent</option>
+                                <option value="myself">Myself</option>
+                                <option value="grandparent">A Grandparent</option>
+                                <option value="partner">A Partner</option>
+                                <option value="child">A Child</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-5 form-group mb-3">
+                            <label class="form-label-large fw-bold mb-2" style="color: #111 !important;">Care needed:</label>
+                            <select class="form-select-custom w-100" name="care_type" style="color: #000 !important; text-align: center; font-weight: bold;">
+                                <option value="companion">Companion Care</option>
+                                <option value="senior">Senior Care</option>
+                                <option value="personal">Personal Care</option>
+                                <option value="respite">Respite Care</option>
+                                <option value="dementia">Dementia Support</option>
+                                <option value="post_hospital">Post-Hospital Support</option>
+                            </select>
+                        </div>
+                        <div class="col-12 mt-4 text-center">
+                            <button type="submit" class="btn-primary-custom" style="font-size: 1.2rem; margin: 0 auto; display: inline-block;">Start My Care Request &rarr;</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+            <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-12 col-lg-4 text-start">
+                    <div class="footer-brand mb-3 d-flex align-items-center">
+                        <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                        CARENEST
+                    </div>
+                                        <p class="text-secondary mb-2">Care That Feels Like Home.</p>
+                    <p class="text-secondary mb-5 pb-3" style="font-size: 0.95rem;">Providing compassionate, personalized support for your loved ones. Our dedicated professionals adapt to your family's unique routines. Experience peace of mind with our trusted and reliable care.</p>
+                    
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>Care</h4>
+                    <ul>
+                        <li><a href="services.html">Services Overview</a></li>
+                        <li><a href="services.html">Senior Care</a></li>
+                        <li><a href="services.html">Companion Care</a></li>
+                        <li><a href="services.html">Personal Care</a></li>
+                        <li><a href="services.html">Respite Care</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="caregivers.html">Caregivers</a></li>
+                        <li><a href="about.html">Our Approach</a></li>
+                        <li><a href="resources.html">Family Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-4 footer-links">
+                    <h4>Support & Connect</h4>
+                    <ul class="d-flex gap-3 mb-4">
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a></li>
+                    </ul>
+                    <h4>Newsletter</h4>
+                    <p class="text-secondary mb-3">Care insights, delivered thoughtfully.</p>
+                    <form class="d-flex gap-2" onsubmit="event.preventDefault();">
+                        <input type="email" class="form-control bg-transparent border-secondary text-dark" placeholder="Your email address" style="border-radius: 100px; padding-left: 1.5rem;">
+                        <button class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; flex-shrink: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>                    </form>
+                </div>
+            </div>
+            <div class="row mt-5 pt-4 border-top border-secondary border-opacity-25">
+                <div class="col-12 text-center">
+                    <div class="text-secondary text-sm">&copy; 2026 CareNest. All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/three-bg.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

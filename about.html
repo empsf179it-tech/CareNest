@@ -1,0 +1,378 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | CareNest</title>
+    <link rel="icon" href="assets/images/website-logo.png" type="image/png">
+    <meta name="description" content="Discover the story, values, and approach behind CareNest. We believe professional care can also be deeply human.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* About Page Specific Styles */
+        .about-hero {
+            position: relative;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background-color: var(--bg-dark);
+        }
+        
+        .about-hero-img-container {
+            position: relative;
+            height: 80vh;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 5rem;
+        }
+
+        .about-hero-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: var(--transition-smooth);
+        }
+
+        .about-floating-text {
+            position: relative;
+            margin-top: -3rem;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(24px);
+            padding: 4rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 800px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Values Section */
+        .value-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            height: 100%;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .value-card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .value-card-body {
+            padding: 2rem;
+            flex-grow: 1;
+            position: relative;
+            z-index: 2;
+        }
+
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, var(--accent-champagne-muted), transparent 70%);
+            opacity: 0;
+            transition: var(--transition-smooth);
+            z-index: 1;
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-champagne);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .value-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Our Approach */
+        .approach-img-wrapper {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            min-height: 500px;
+            height: 100%;
+            width: 100%;
+        }
+
+        .approach-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            min-height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .approach-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .approach-list li {
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .approach-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-champagne);
+        }
+
+        @media (max-width: 991.98px) {
+            .about-floating-text {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                margin-top: -3rem;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three.js Global Background -->
+    <div id="canvas-container" class="three-canvas-container"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-global" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                CARENEST
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-4">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="caregivers.html">Caregivers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Family Resources</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="contact.html" class="btn-primary-custom" style="padding: 0.75rem 1.5rem;">Find Care &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Hero Section -->
+    <section class="page-hero text-center gs-reveal" style="padding: 10rem 0 4rem; position: relative; background-color: var(--bg-surface-elevated);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h1 class="display-3 fw-bold mb-4" style="color: var(--text-primary);">About CareNest</h1>
+                    <p class="lead" style="color: var(--text-secondary); font-size: 1.25rem;">Discover the story, values, and approach behind CareNest. We believe professional care can also be deeply human.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section 01 - Brand Story -->
+    <section class="about-hero pt-5">
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-lg-10 mx-auto position-relative">
+                    <div class="about-hero-img-container gs-reveal">
+                        <img src="assets/images/about_hero.jpg" alt="CareNest Professional Caregiver" id="heroImage">
+                    </div>
+                    
+                    <div class="about-floating-text gs-reveal" style="transition-delay: 0.2s">
+                        <span class="eyebrow">Our Story</span>
+                        <h1 class="mb-4" style="font-size: clamp(2rem, 4vw, 3rem);">Care Begins With Understanding.</h1>
+                        <p class="mb-0">CareNest was founded on a simple belief: professional care should never feel clinical. We saw families struggling to find support that felt genuinely warm and respectful of their loved one's independence. We created CareNest to provide care that feels like an extension of your own family.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section 02 - Our Values -->
+    <section class="section bg-surface mt-5">
+        <div class="container">
+            <div class="text-center mb-5 pb-4 gs-reveal">
+                <span class="eyebrow">Guiding Principles</span>
+                <h2>What Drives Us</h2>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3 gs-reveal">
+                    <div class="value-card">
+                        <img src="assets/images/Compassion.png" alt="Compassion" class="value-card-img">
+                        <div class="value-card-body">
+                            <h3 class="mb-3 fs-4">Compassion</h3>
+                            <p class="text-sm mb-0">We listen before we act. True care requires empathy, patience, and a genuine desire to understand someone's world.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6 col-lg-3 gs-reveal" style="transition-delay: 0.1s">
+                    <div class="value-card">
+                        <img src="assets/images/Trust.png" alt="Trust" class="value-card-img">
+                        <div class="value-card-body">
+                            <h3 class="mb-3 fs-4">Trust</h3>
+                            <p class="text-sm mb-0">Families deserve complete confidence. We build trust through transparency, rigorous standards, and clear communication.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 gs-reveal" style="transition-delay: 0.2s">
+                    <div class="value-card">
+                        <img src="assets/images/Dignity.png" alt="Dignity" class="value-card-img">
+                        <div class="value-card-body">
+                            <h3 class="mb-3 fs-4">Dignity</h3>
+                            <p class="text-sm mb-0">Every individual deserves respect. We support independence and honor the life experiences of every person we care for.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3 gs-reveal" style="transition-delay: 0.3s">
+                    <div class="value-card">
+                        <img src="assets/images/Consistency.png" alt="Consistency" class="value-card-img">
+                        <div class="value-card-body">
+                            <h3 class="mb-3 fs-4">Consistency</h3>
+                            <p class="text-sm mb-0">Great care is built through reliability. We focus on establishing steady routines and long-term relationships.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section 03 - Our Approach -->
+    <section class="section bg-surface-elevated">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 gs-reveal">
+                    <div class="approach-img-wrapper">
+                        <img src="assets/images/about_approach.jpg" alt="Caregiver holding hands with elderly woman">
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1 gs-reveal">
+                    <span class="eyebrow">Our Methodology</span>
+                    <h2 class="mb-4">Human First. Always.</h2>
+                    <p class="mb-5">We believe the emotional connection between a caregiver and a family is just as critical as the physical support provided. Our entire approach is designed around fostering these meaningful connections.</p>
+                    
+                    <ul class="approach-list mb-5">
+                        <li><strong>Personalized Care:</strong> No two families are the same, and neither are our care plans.</li>
+                        <li><strong>Caregiver Matching:</strong> We pair based on personality, shared interests, and specific experience.</li>
+                        <li><strong>Family Communication:</strong> Keeping loved ones informed and involved every step of the way.</li>
+                        <li><strong>Ongoing Support:</strong> Adapting care as needs evolve over time.</li>
+                    </ul>
+                    
+                    <a href="caregivers.html" class="btn-primary-custom">Meet Our Caregivers &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+            <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-12 col-lg-4 text-start">
+                    <div class="footer-brand mb-3 d-flex align-items-center">
+                        <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                        CARENEST
+                    </div>
+                                        <p class="text-secondary mb-2">Care That Feels Like Home.</p>
+                    <p class="text-secondary mb-5 pb-3" style="font-size: 0.95rem;">Providing compassionate, personalized support for your loved ones. Our dedicated professionals adapt to your family's unique routines. Experience peace of mind with our trusted and reliable care.</p>
+                    
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>Care</h4>
+                    <ul>
+                        <li><a href="services.html">Services Overview</a></li>
+                        <li><a href="services.html">Senior Care</a></li>
+                        <li><a href="services.html">Companion Care</a></li>
+                        <li><a href="services.html">Personal Care</a></li>
+                        <li><a href="services.html">Respite Care</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="caregivers.html">Caregivers</a></li>
+                        <li><a href="about.html">Our Approach</a></li>
+                        <li><a href="resources.html">Family Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-4 footer-links">
+                    <h4>Support & Connect</h4>
+                    <ul class="d-flex gap-3 mb-4">
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a></li>
+                    </ul>
+                    <h4>Newsletter</h4>
+                    <p class="text-secondary mb-3">Care insights, delivered thoughtfully.</p>
+                    <form class="d-flex gap-2" onsubmit="event.preventDefault();">
+                        <input type="email" class="form-control bg-transparent border-secondary text-dark" placeholder="Your email address" style="border-radius: 100px; padding-left: 1.5rem;">
+                        <button class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; flex-shrink: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>                    </form>
+                </div>
+            </div>
+            <div class="row mt-5 pt-4 border-top border-secondary border-opacity-25">
+                <div class="col-12 text-center">
+                    <div class="text-secondary text-sm">&copy; 2026 CareNest. All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/three-bg.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

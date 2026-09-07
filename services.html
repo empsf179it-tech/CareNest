@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | CareNest</title>
+    <link rel="icon" href="assets/images/website-logo.png" type="image/png">
+    <meta name="description" content="Explore our range of personalized caregiving services, from companion care to specialized dementia support and post-hospital recovery.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Services Page Specific Styles */
+        
+        .services-hero {
+            padding: 10rem 0 5rem;
+            background-color: var(--bg-dark);
+        }
+
+        /* Large Service Cards */
+        .service-large-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 24px;
+            overflow: hidden;
+            margin-bottom: 4rem;
+            display: flex;
+            transition: var(--transition-smooth);
+        }
+
+        .service-large-card:hover {
+            border-color: var(--border-subtle);
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .service-img-side {
+            width: 45%;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .service-img-side img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .service-large-card:hover .service-img-side img {
+            transform: scale(1.05);
+        }
+
+        .service-content-side {
+            width: 55%;
+            padding: 4rem;
+            position: relative;
+        }
+
+        .service-num-bg {
+            position: absolute;
+            top: -2rem;
+            right: 2rem;
+            font-family: var(--font-heading);
+            font-size: 10rem;
+            color: var(--bg-surface-elevated);
+            z-index: 0;
+            line-height: 1;
+        }
+
+        .service-content-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-benefits {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 2.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .service-benefits li {
+            position: relative;
+            padding-left: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .service-benefits li::before {
+            content: 'âœ“';
+            position: absolute;
+            left: 0;
+            color: var(--accent-sage);
+            font-weight: bold;
+        }
+
+        .service-large-card.reverse {
+            flex-direction: row-reverse;
+        }
+
+        /* Care Matching Flow */
+        .matching-section {
+            position: relative;
+            padding: 8rem 0;
+            overflow: hidden;
+        }
+
+        .matching-flow {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 5rem;
+        }
+
+        .matching-node {
+            background: var(--bg-surface-glass);
+            border: 1px solid var(--border-light);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+            transition: var(--transition-smooth);
+        }
+
+        .matching-node:hover {
+            border-color: var(--accent-champagne);
+            background: var(--bg-surface-elevated);
+            transform: scale(1.1);
+        }
+
+        .matching-node span {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .matching-line {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            right: 5%;
+            height: 2px;
+            background: rgba(255,255,255,0.1);
+            z-index: 1;
+            transform: translateY(-50%);
+        }
+
+        .matching-line-active {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: var(--accent-champagne);
+            box-shadow: 0 0 20px var(--accent-champagne);
+        }
+
+        /* Floating Profiles */
+        .floating-profile {
+            position: absolute;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            z-index: 3;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            width: 250px;
+        }
+
+        .floating-profile img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .fp-1 { top: -40px; right: 10%; }
+        .fp-2 { bottom: -60px; right: 25%; }
+
+        /* Service CTA */
+        .service-cta {
+            background: linear-gradient(to right, var(--bg-surface) 0%, var(--bg-surface-elevated) 100%);
+            border-top: 1px solid var(--border-subtle);
+            padding: 8rem 0;
+        }
+
+        .cta-input-group {
+            display: flex;
+            background: transparent;
+            border-bottom: 2px solid var(--border-light);
+            padding: 0.5rem 0;
+            transition: var(--transition-fast);
+        }
+
+        .cta-input-group:focus-within {
+            border-color: var(--accent-champagne);
+        }
+
+        .cta-input-group input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.25rem;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        .cta-input-group input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .cta-input-group button {
+            background: transparent;
+            border: none;
+            color: var(--accent-champagne);
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 991.98px) {
+            .service-large-card, .service-large-card.reverse {
+                flex-direction: column;
+            }
+            .service-img-side, .service-content-side {
+                width: 100%;
+            }
+            .service-img-side {
+                min-height: 300px;
+            }
+            .service-content-side {
+                padding: 2.5rem;
+            }
+            .service-benefits {
+                grid-template-columns: 1fr;
+            }
+            .matching-flow {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .matching-line {
+                top: 5%;
+                bottom: 5%;
+                left: 50%;
+                width: 2px;
+                height: 90%;
+                transform: translateX(-50%);
+            }
+            .matching-line-active {
+                width: 100%;
+                height: 0%;
+            }
+            .floating-profile { display: none; } /* Hide on mobile to prevent clutter */
+        }
+        
+        @media (max-width: 768px) {
+            .cta-input-group {
+                flex-direction: column;
+                border-bottom: none;
+            }
+            .cta-input-group input {
+                border-bottom: 2px solid var(--border-light);
+                padding-bottom: 1rem;
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+            .cta-input-group button {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three.js Global Background -->
+    <div id="canvas-container" class="three-canvas-container"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-global" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                CARENEST
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-4">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="caregivers.html">Caregivers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Family Resources</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="contact.html" class="btn-primary-custom" style="padding: 0.75rem 1.5rem;">Find Care &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Services Hero -->
+    <section class="services-hero text-center gs-reveal" style="background-color: var(--bg-surface-elevated); padding: 10rem 0 4rem;">
+        <div class="container">
+            <h1 class="display-3 mb-4">The Right Support for<br>Every Chapter.</h1>
+            <p class="lead text-secondary mx-auto" style="max-width: 700px;">Care designed around real life. Whether you need an extra set of hands for a few hours a week, or full-time specialized support, we create a plan that fits.</p>
+        </div>
+    </section>
+
+    <!-- Section 01 - Service Discovery -->
+    <section class="section">
+        <div class="container">
+            
+            <!-- Service 1 -->
+            <div class="service-large-card gs-reveal">
+                <div class="service-img-side">
+                    <img src="assets/images/companion_care.jpg" alt="Companion Care">
+                </div>
+                <div class="service-content-side">
+
+                    <div class="service-content-inner">
+                        <h2 class="mb-4">Companion Care</h2>
+                        <p class="mb-4">Meaningful connection is the foundation of well-being. Our companion caregivers provide more than just supervision; they offer warm conversation, shared activities, and emotional support to prevent isolation and encourage an active, engaged life.</p>
+                        <ul class="service-benefits">
+                            <li>Engaging conversation</li>
+                            <li>Hobby assistance</li>
+                            <li>Light housekeeping</li>
+                            <li>Meal preparation</li>
+                            <li>Errands & shopping</li>
+                            <li>Transportation</li>
+                        </ul>
+                        <a href="contact.html?service=companion" class="btn-outline-custom">Explore Companion Care</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-large-card reverse gs-reveal">
+                <div class="service-img-side">
+                    <img src="assets/images/senior_care.jpg" alt="Senior Care">
+                </div>
+                <div class="service-content-side">
+
+                    <div class="service-content-inner">
+                        <h2 class="mb-4">Senior Care</h2>
+                        <p class="mb-4">Comprehensive support that empowers older adults to maintain their independence while safely enjoying the comfort of their own homes. We help navigate the daily challenges of aging with profound respect and patience.</p>
+                        <ul class="service-benefits">
+                            <li>Fall prevention</li>
+                            <li>Medication reminders</li>
+                            <li>Mobility assistance</li>
+                            <li>Daily routine planning</li>
+                            <li>Light exercise support</li>
+                            <li>Doctor visit accompaniment</li>
+                        </ul>
+                        <a href="contact.html?service=senior" class="btn-outline-custom">Explore Senior Care</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-large-card gs-reveal">
+                <div class="service-img-side">
+                    <img src="assets/images/personal_care.jpg" alt="Personal Care">
+                </div>
+                <div class="service-content-side">
+
+                    <div class="service-content-inner">
+                        <h2 class="mb-4">Personal Care</h2>
+                        <p class="mb-4">Intimate, daily assistance provided with the highest degree of dignity and professionalism. Our personal care specialists are extensively trained to handle sensitive routines while preserving the individual's comfort and self-esteem.</p>
+                        <ul class="service-benefits">
+                            <li>Bathing & showering</li>
+                            <li>Dressing & grooming</li>
+                            <li>Incontinence care</li>
+                            <li>Feeding assistance</li>
+                            <li>Transfer assistance</li>
+                            <li>Morning/evening routines</li>
+                        </ul>
+                        <a href="contact.html?service=personal" class="btn-outline-custom">Explore Personal Care</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-large-card reverse gs-reveal">
+                <div class="service-img-side">
+                    <img src="assets/images/dementia_care.jpg" alt="Dementia Support">
+                </div>
+                <div class="service-content-side">
+
+                    <div class="service-content-inner">
+                        <h2 class="mb-4">Dementia Support</h2>
+                        <p class="mb-4">Specialized, patient, and deeply empathetic care for individuals facing Alzheimer's or other forms of dementia. We focus on creating a secure environment, maintaining consistent routines, and redirecting anxiety with compassion.</p>
+                        <ul class="service-benefits">
+                            <li>Memory stimulation</li>
+                            <li>Behavior management</li>
+                            <li>Wandering prevention</li>
+                            <li>Routine establishment</li>
+                            <li>Family coping strategies</li>
+                            <li>Safe environment design</li>
+                        </ul>
+                        <a href="contact.html?service=dementia" class="btn-outline-custom">Explore Dementia Support</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-large-card gs-reveal">
+                <div class="service-img-side">
+                    <img src="assets/images/respite_care.jpg" alt="Respite Care">
+                </div>
+                <div class="service-content-side">
+
+                    <div class="service-content-inner">
+                        <h2 class="mb-4">Respite Care</h2>
+                        <p class="mb-4">Family caregivers need and deserve a break. Our respite care provides trusted, temporary support so you can rest, recharge, and attend to your own needs, knowing your loved one is in expert hands.</p>
+                        <ul class="service-benefits">
+                            <li>Short-term relief</li>
+                            <li>Weekend coverage</li>
+                            <li>Vacation coverage</li>
+                            <li>Emergency fill-in</li>
+                            <li>Seamless transition</li>
+                            <li>Peace of mind</li>
+                        </ul>
+                        <a href="contact.html?service=respite" class="btn-outline-custom">Explore Respite Care</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="service-large-card reverse gs-reveal">
+                <div class="service-img-side">
+                    <img src="assets/images/post_hospital.jpg" alt="Post-Hospital Support">
+                </div>
+                <div class="service-content-side">
+
+                    <div class="service-content-inner">
+                        <h2 class="mb-4">Post-Hospital Support</h2>
+                        <p class="mb-4">The transition from hospital to home is critical for recovery. We provide the practical, non-medical support needed to ensure a safe environment, reduce the risk of readmission, and facilitate a smoother healing process.</p>
+                        <ul class="service-benefits">
+                            <li>Discharge planning help</li>
+                            <li>Prescription pickup</li>
+                            <li>Dietary monitoring</li>
+                            <li>Physical therapy support</li>
+                            <li>Comfort management</li>
+                            <li>Condition observation</li>
+                        </ul>
+                        <a href="contact.html?service=post_hospital" class="btn-outline-custom">Explore Recovery Support</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Section 02 - Care Matching -->
+    <section class="matching-section bg-surface-elevated" id="matchingSection">
+        <div class="container gs-reveal">
+            <div class="text-center mb-5">
+                <h2>Care Should Feel Personal.</h2>
+                <p class="text-secondary mx-auto" style="max-width: 600px;">We don't just send the first available caregiver. We utilize a precise matching process to ensure a genuine connection.</p>
+            </div>
+
+            <div class="matching-flow" id="matchingFlow">
+                <div class="matching-line">
+                    <div class="matching-line-active" id="matchingLineActive"></div>
+                </div>
+                
+                <div class="matching-node gs-node">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-champagne)" stroke-width="1.5" class="mb-2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>Needs</span>
+                </div>
+                <div class="matching-node gs-node">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-champagne)" stroke-width="1.5" class="mb-2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                    <span>Personality</span>
+                </div>
+                <div class="matching-node gs-node">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-champagne)" stroke-width="1.5" class="mb-2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                    <span>Experience</span>
+                </div>
+                <div class="matching-node gs-node">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-champagne)" stroke-width="1.5" class="mb-2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Availability</span>
+                </div>
+                <div class="matching-node gs-node" style="border-color: var(--accent-champagne); background: var(--bg-surface);">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent-champagne)" stroke-width="1.5" class="mb-2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    <span>Care Match</span>
+                </div>
+
+                <div class="floating-profile fp-1" id="fp1">
+                    <img src="assets/images/portrait_maya.jpg" alt="Maya">
+                    <div>
+                        <div class="fw-bold text-sm text-dark">Maya matched</div>
+                        <div class="text-accent text-xs" style="font-size: 0.75rem;">98% Personality Match</div>
+                    </div>
+                </div>
+                
+                <div class="floating-profile fp-2" id="fp2">
+                    <img src="assets/images/portrait_daniel.jpg" alt="Daniel">
+                    <div>
+                        <div class="fw-bold text-sm text-dark">Daniel evaluated</div>
+                        <div class="text-accent text-xs" style="font-size: 0.75rem;">Experience aligns perfectly</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 03 - Service CTA -->
+    <section class="service-cta gs-reveal text-center">
+        <div class="container">
+            <h2 class="mb-3">Not Sure What Type of Care You Need?</h2>
+            <p class="text-secondary mb-5 mx-auto" style="max-width: 600px;">Tell us what everyday life looks like and we'll help you understand your options.</p>
+            
+            <form class="mx-auto" style="max-width: 700px;" action="contact.html">
+                <div class="cta-input-group">
+                    <input type="text" placeholder="What kind of support are you exploring?" required>
+                    <button type="submit">Talk to CareNest <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+            <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-12 col-lg-4 text-start">
+                    <div class="footer-brand mb-3 d-flex align-items-center">
+                        <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                        CARENEST
+                    </div>
+                                        <p class="text-secondary mb-2">Care That Feels Like Home.</p>
+                    <p class="text-secondary mb-5 pb-3" style="font-size: 0.95rem;">Providing compassionate, personalized support for your loved ones. Our dedicated professionals adapt to your family's unique routines. Experience peace of mind with our trusted and reliable care.</p>
+                    
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>Care</h4>
+                    <ul>
+                        <li><a href="services.html">Services Overview</a></li>
+                        <li><a href="services.html">Senior Care</a></li>
+                        <li><a href="services.html">Companion Care</a></li>
+                        <li><a href="services.html">Personal Care</a></li>
+                        <li><a href="services.html">Respite Care</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="caregivers.html">Caregivers</a></li>
+                        <li><a href="about.html">Our Approach</a></li>
+                        <li><a href="resources.html">Family Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-4 footer-links">
+                    <h4>Support & Connect</h4>
+                    <ul class="d-flex gap-3 mb-4">
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a></li>
+                    </ul>
+                    <h4>Newsletter</h4>
+                    <p class="text-secondary mb-3">Care insights, delivered thoughtfully.</p>
+                    <form class="d-flex gap-2" onsubmit="event.preventDefault();">
+                        <input type="email" class="form-control bg-transparent border-secondary text-dark" placeholder="Your email address" style="border-radius: 100px; padding-left: 1.5rem;">
+                        <button class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; flex-shrink: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>                    </form>
+                </div>
+            </div>
+            <div class="row mt-5 pt-4 border-top border-secondary border-opacity-25">
+                <div class="col-12 text-center">
+                    <div class="text-secondary text-sm">&copy; 2026 CareNest. All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/three-bg.js"></script>
+    <script>
+        // Custom animation for Care Matching
+        document.addEventListener('DOMContentLoaded', () => {
+            const matchingSection = document.getElementById('matchingSection');
+            const matchingLineActive = document.getElementById('matchingLineActive');
+            const nodes = document.querySelectorAll('.gs-node');
+            const fp1 = document.getElementById('fp1');
+            const fp2 = document.getElementById('fp2');
+
+            if (matchingSection && window.innerWidth > 991) {
+                let tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: matchingSection,
+                        start: "top center",
+                        end: "bottom center",
+                        scrub: 1
+                    }
+                });
+
+                tl.to(matchingLineActive, { width: "100%", duration: 4, ease: "none" }, 0);
+                
+                nodes.forEach((node, i) => {
+                    tl.fromTo(node, { scale: 1 }, { scale: 1.1, duration: 0.5, ease: "power2.out", yoyo: true, repeat: 1 }, i * 0.8);
+                });
+
+                tl.to(fp1, { opacity: 1, y: -20, duration: 0.5 }, 1.5);
+                tl.to(fp2, { opacity: 1, y: -20, duration: 0.5 }, 2.5);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

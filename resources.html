@@ -1,0 +1,435 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Resources | CareNest</title>
+    <link rel="icon" href="assets/images/website-logo.png" type="image/png">
+    <meta name="description" content="Helpful guidance, articles, and support for families navigating caregiving decisions.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Resources Page Specific Styles */
+        
+        .resource-hero {
+            padding: 10rem 0 5rem;
+            background-color: var(--bg-dark);
+            text-align: center;
+        }
+
+        /* Card Variations */
+        .editorial-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            transition: var(--transition-smooth);
+        }
+
+        .editorial-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--border-subtle);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-light);
+            transition: var(--transition-smooth);
+        }
+
+        .editorial-card:hover .card-img-top {
+            opacity: 0.8;
+        }
+
+        .card-body-custom {
+            padding: 2.5rem;
+        }
+
+        .resource-category {
+            color: var(--accent-champagne);
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .editorial-card h3 {
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+            white-space: nowrap;
+        }
+
+        .read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            position: relative;
+        }
+
+        .read-more::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: var(--accent-champagne);
+            transition: var(--transition-fast);
+        }
+
+        .editorial-card:hover .read-more::after {
+            width: 100%;
+        }
+
+        /* Specific Card Styles for Variety */
+        .card-style-dark {
+            background: var(--bg-surface-elevated);
+        }
+
+        .card-style-accent {
+            background: linear-gradient(145deg, var(--bg-surface), #151515);
+            border-color: rgba(230, 216, 195, 0.2);
+        }
+
+        .card-style-accent h3 {
+            font-size: 1.35rem;
+        }
+
+        /* Resource CTA */
+        .resource-cta-section {
+            background: var(--bg-surface-elevated);
+            padding: 8rem 0;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .resource-cta-input {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--border-light);
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            padding: 1rem 0;
+            width: 100%;
+            margin-bottom: 2rem;
+            transition: var(--transition-fast);
+        }
+
+        .resource-cta-input:focus {
+            outline: none;
+            border-color: var(--accent-champagne);
+        }
+
+        /* Custom Accordion */
+        .accordion-custom .accordion-item {
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px !important;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: var(--transition-fast);
+        }
+        .accordion-custom .accordion-item:hover {
+            border-color: var(--accent-champagne);
+        }
+        .accordion-custom .accordion-button {
+            background: transparent;
+            padding: 1.5rem;
+            font-size: 1.25rem;
+            font-family: var(--font-heading);
+            color: var(--text-primary);
+            box-shadow: none;
+        }
+        .accordion-custom .accordion-button:not(.collapsed) {
+            background: transparent;
+            color: var(--accent-champagne);
+            box-shadow: none;
+        }
+        .accordion-custom .accordion-button:focus {
+            box-shadow: none;
+        }
+        .accordion-custom .accordion-body {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three.js Global Background -->
+    <div id="canvas-container" class="three-canvas-container"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-global" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                CARENEST
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-4">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link" href="caregivers.html">Caregivers</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="resources.html">Family Resources</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="contact.html" class="btn-primary-custom" style="padding: 0.75rem 1.5rem;">Find Care &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Resource Hero -->
+    <section class="resource-hero gs-reveal" style="background-color: var(--bg-surface-elevated); padding: 10rem 0 4rem;">
+        <div class="container">
+            <h1 class="display-3 mb-4">Support for the People<br>Providing the Care.</h1>
+            <p class="lead text-secondary mx-auto" style="max-width: 600px;">Helpful guidance, thoughtful insights, and practical advice for families navigating caregiving decisions.</p>
+        </div>
+    </section>
+
+    <!-- Editorial Resource Cards -->
+    <section class="section pt-0">
+        <div class="container">
+            <div class="row g-4 gs-reveal pb-5">
+                
+                <!-- Row 1: Image Cards -->
+                <div class="col-lg-4 col-md-6">
+                    <article class="editorial-card card-style-dark">
+                        <img src="assets/images/about_approach.jpg" alt="Choosing a Caregiver" class="card-img-top">
+                        <div class="card-body-custom d-flex flex-column flex-grow-1">
+                            <span class="resource-category">Guide</span>
+                            <h3>Choosing a Caregiver</h3>
+                            <p>How to identify the right support for your loved one. Key questions to ask and what to look for beyond basic qualifications.</p>
+                            <a href="#" class="read-more mt-auto text-decoration-none">Read Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <article class="editorial-card">
+                        <img src="assets/images/post_hospital.jpg" alt="Safer Home" class="card-img-top">
+                        <div class="card-body-custom d-flex flex-column flex-grow-1">
+                            <span class="resource-category">Safety</span>
+                            <h3>Creating a Safer Home</h3>
+                            <p>Simple everyday considerations and modifications that can significantly reduce the risk of falls and accidents for older adults living independently.</p>
+                            <a href="#" class="read-more mt-auto text-decoration-none">Read Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <article class="editorial-card card-style-accent">
+                        <img src="assets/images/senior_care.jpg" alt="Supporting Independence" class="card-img-top">
+                        <div class="card-body-custom d-flex flex-column flex-grow-1">
+                            <span class="resource-category">Wellness</span>
+                            <h3>Supporting Independence</h3>
+                            <p>Helping loved ones maintain confidence and routine. Strategies for offering assistance that empowers rather than diminishes.</p>
+                            <a href="#" class="read-more mt-auto text-decoration-none">Read Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- Row 2: Text Cards -->
+                <div class="col-lg-4 col-md-6">
+                    <article class="editorial-card card-style-accent">
+                        <div class="card-body-custom d-flex flex-column flex-grow-1">
+                            <span class="resource-category">Communication</span>
+                            <h3>Starting a Care Conversation</h3>
+                            <p>How to talk with parents about receiving help at home without compromising their sense of independence and dignity.</p>
+                            <a href="#" class="read-more mt-auto text-decoration-none">Read Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <article class="editorial-card card-style-dark">
+                        <div class="card-body-custom d-flex flex-column flex-grow-1">
+                            <span class="resource-category">Mental Health</span>
+                            <h3>Understanding Respite Care</h3>
+                            <p>Why family caregivers need support too. Recognizing burnout and understanding how temporary professional care can improve everyone's wellbeing.</p>
+                            <a href="#" class="read-more mt-auto text-decoration-none">Read Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <article class="editorial-card">
+                        <div class="card-body-custom d-flex flex-column flex-grow-1">
+                            <span class="resource-category">Planning</span>
+                            <h3>Building a Care Plan</h3>
+                            <p>Questions families should consider when outlining long-term care needs, schedules, and financial arrangements.</p>
+                            <a href="#" class="read-more mt-auto text-decoration-none">Read Article <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg></a>
+                        </div>
+                    </article>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Expert FAQ Section -->
+    <section class="section">
+        <div class="container">
+            <div class="row align-items-center gs-reveal">
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <span class="resource-category d-block mb-2 text-uppercase letter-spacing-1" style="color: var(--accent-champagne);">Expert Advice</span>
+                    <h2 class="display-5 mb-4">Frequently Asked Questions</h2>
+                    <p class="text-secondary mb-5" style="font-size: 1.1rem; line-height: 1.8;">Navigating care options can be overwhelming. We've compiled the most common questions families ask us when starting their caregiving journey to provide you with immediate clarity.</p>
+                    <a href="contact.html" class="btn-outline-custom">Ask a Custom Question</a>
+                </div>
+                <div class="col-lg-6 offset-lg-1">
+                    <div class="accordion accordion-custom" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How do I know it's time for professional care?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Look for signs like changes in personal hygiene, unexplained weight loss, missed medications, or an untidy home. If you, as a family caregiver, are feeling consistently exhausted or overwhelmed, it's also a clear indicator that professional support could be highly beneficial.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    What is the difference between companion and personal care?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Companion care focuses primarily on social interaction, light housekeeping, errands, and meal preparation. Personal care includes all companion services but adds physical assistance with activities of daily living (ADLs) such as bathing, dressing, grooming, and mobility.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Can we interview caregivers before they start?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Absolutely. We believe the relationship between the caregiver and the client is paramount. We carefully match profiles based on specific needs and personality traits, and we highly encourage a "meet and greet" to ensure everyone feels completely comfortable and confident before care begins.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resource CTA -->
+    <section class="resource-cta-section text-secondary gs-reveal">
+        <div class="container text-center">
+            <h2 class="display-5 mb-4 text-center">Have Questions About Care?</h2>
+            <p class="text-secondary mb-5 mx-auto text-center" style="max-width: 500px;">Enter your email to receive our comprehensive family care guide directly in your inbox.</p>
+            
+            <form class="mx-auto text-center" style="max-width: 600px;" action="#">
+                <input type="email" class="resource-cta-input text-center" placeholder="Enter your email address" required>
+                <div class="d-flex justify-content-center w-100 mt-2">
+                    <button type="submit" class="btn-primary-custom px-5 py-3 fs-5">Send Me Guidance &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+            <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-12 col-lg-4 text-start">
+                    <div class="footer-brand mb-3 d-flex align-items-center">
+                        <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                        CARENEST
+                    </div>
+                                        <p class="text-secondary mb-2">Care That Feels Like Home.</p>
+                    <p class="text-secondary mb-5 pb-3" style="font-size: 0.95rem;">Providing compassionate, personalized support for your loved ones. Our dedicated professionals adapt to your family's unique routines. Experience peace of mind with our trusted and reliable care.</p>
+                    
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>Care</h4>
+                    <ul>
+                        <li><a href="services.html">Services Overview</a></li>
+                        <li><a href="services.html">Senior Care</a></li>
+                        <li><a href="services.html">Companion Care</a></li>
+                        <li><a href="services.html">Personal Care</a></li>
+                        <li><a href="services.html">Respite Care</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="caregivers.html">Caregivers</a></li>
+                        <li><a href="about.html">Our Approach</a></li>
+                        <li><a href="resources.html">Family Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-4 footer-links">
+                    <h4>Support & Connect</h4>
+                    <ul class="d-flex gap-3 mb-4">
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a></li>
+                    </ul>
+                    <h4>Newsletter</h4>
+                    <p class="text-secondary mb-3">Care insights, delivered thoughtfully.</p>
+                    <form class="d-flex gap-2" onsubmit="event.preventDefault();">
+                        <input type="email" class="form-control bg-transparent border-secondary text-dark" placeholder="Your email address" style="border-radius: 100px; padding-left: 1.5rem;">
+                        <button class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; flex-shrink: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>                    </form>
+                </div>
+            </div>
+            <div class="row mt-5 pt-4 border-top border-secondary border-opacity-25">
+                <div class="col-12 text-center">
+                    <div class="text-secondary text-sm">&copy; 2026 CareNest. All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/three-bg.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

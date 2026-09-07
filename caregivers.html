@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Caregivers | CareNest</title>
+    <link rel="icon" href="assets/images/website-logo.png" type="image/png">
+    <meta name="description" content="Meet the compassionate, highly-trained professionals who make CareNest exceptional.">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        /* Caregivers Page Specific Styles */
+        
+        .caregiver-hero {
+            position: relative;
+            padding: 10rem 0 5rem;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .caregiver-hero-img {
+            width: 100%;
+            height: 60vh;
+            object-fit: cover;
+            border-radius: 20px;
+            opacity: 0.8;
+        }
+
+        /* Profile Grid */
+        .profile-grid-section {
+            padding: 5rem 0 10rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-champagne);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
+        .profile-img-wrap {
+            position: relative;
+            width: 100%;
+            padding-top: 133%; /* 3:4 aspect ratio */
+            overflow: hidden;
+        }
+
+        .profile-img-wrap img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .profile-card:hover .profile-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .verified-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--bg-surface-glass);
+            backdrop-filter: blur(5px);
+            color: var(--accent-champagne);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            border: 1px solid var(--border-light);
+            z-index: 2;
+        }
+
+        .profile-content {
+            padding: 2rem;
+            position: relative;
+        }
+
+        .profile-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-role {
+            color: var(--accent-champagne);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-traits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .trait-tag {
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+        }
+
+        .hover-cta {
+            display: none;
+        }
+
+        .profile-card:hover .profile-traits {
+            transform: translateY(-5px);
+            transition: var(--transition-fast);
+        }
+
+        /* Become a Caregiver CTA */
+        .careers-cta {
+            background: var(--bg-surface-elevated);
+            border-top: 1px solid var(--border-subtle);
+            padding: 8rem 0;
+        }
+
+        .careers-cta-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .careers-cta-form .input-group {
+                flex-direction: column;
+            }
+            .careers-cta-form .input-group > input {
+                border-radius: 100px !important;
+                margin-bottom: 1rem;
+                text-align: center;
+                width: 100% !important;
+            }
+            .careers-cta-form .input-group > button {
+                border-radius: 100px !important;
+                border-left: 1px solid var(--border-light) !important;
+                width: 100% !important;
+                justify-content: center;
+                margin-left: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three.js Global Background -->
+    <div id="canvas-container" class="three-canvas-container"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-global" id="navbar">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                CARENEST
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav align-items-center gap-4">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="services.html">Services</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="caregivers.html">Caregivers</a></li>
+                    <li class="nav-item"><a class="nav-link" href="resources.html">Family Resources</a></li>
+                    <li class="nav-item ms-lg-3">
+                        <a href="contact.html" class="btn-primary-custom" style="padding: 0.75rem 1.5rem;">Find Care &rarr;</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Caregiver Hero -->
+    <section class="caregiver-hero" style="background-color: var(--bg-surface-elevated); padding: 10rem 0 4rem;">
+        <div class="container">
+            <div class="row text-center mb-5 gs-reveal">
+                <div class="col-lg-8 mx-auto">
+                    <h1 class="display-3 mb-4">The Right Person Can Change Everything.</h1>
+                    <p class="lead text-secondary mx-auto" style="max-width: 700px;">We look beyond qualifications to find caregivers whose experience, personality and approach align perfectly with each family we serve.</p>
+                </div>
+            </div>
+            <div class="row mb-5 gs-reveal" style="transition-delay: 0.2s">
+                <div class="col-12 text-center">
+                    <img src="assets/images/caregiver_hero.jpg" alt="Dedicated Caregiver" class="caregiver-hero-img" style="border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); width: 100%; object-fit: cover;">
+                </div>
+            </div>
+            <div class="row text-center gs-reveal" style="transition-delay: 0.4s">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="mb-4">Compassionate Care in Action</h2>
+                    <p class="lead text-secondary mx-auto mb-0" style="max-width: 800px;">Our caregivers are the heart of CareNest. Every professional on our team is meticulously selected not just for their technical expertise, but for their genuine warmth, patience, and unwavering dedication to enhancing the quality of life for your loved ones.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Caregiver Profiles Grid -->
+    <section class="profile-grid-section">
+        <div class="container">
+            <div class="row g-5">
+                
+                <!-- Profile 1 -->
+                <div class="col-lg-4 col-md-6 gs-reveal">
+                    <div class="profile-card">
+                        <div class="verified-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified
+                        </div>
+                        <div class="profile-img-wrap">
+                            <img src="assets/images/portrait_sophia.jpg" alt="Emma">
+                        </div>
+                        <div class="profile-content">
+                            <h3>Emma</h3>
+                            <div class="profile-role">Senior Care Specialist</div>
+                            <div class="profile-traits">
+                                <span class="trait-tag">8 Years Exp.</span>
+                                <span class="trait-tag">Patient</span>
+                                <span class="trait-tag">Observant</span>
+                            </div>
+                            <div class="hover-cta">View Full Profile &rarr;</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile 2 -->
+                <div class="col-lg-4 col-md-6 gs-reveal" style="transition-delay: 0.1s">
+                    <div class="profile-card">
+                        <div class="verified-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified
+                        </div>
+                        <div class="profile-img-wrap">
+                            <img src="assets/images/portrait_daniel.jpg" alt="Noah">
+                        </div>
+                        <div class="profile-content">
+                            <h3>Noah</h3>
+                            <div class="profile-role">Companion Care Specialist</div>
+                            <div class="profile-traits">
+                                <span class="trait-tag">5 Years Exp.</span>
+                                <span class="trait-tag">Energetic</span>
+                                <span class="trait-tag">Conversational</span>
+                            </div>
+                            <div class="hover-cta">View Full Profile &rarr;</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile 3 -->
+                <div class="col-lg-4 col-md-6 gs-reveal" style="transition-delay: 0.2s">
+                    <div class="profile-card">
+                        <div class="verified-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified
+                        </div>
+                        <div class="profile-img-wrap">
+                            <img src="assets/images/portrait_maya.jpg" alt="Olivia">
+                        </div>
+                        <div class="profile-content">
+                            <h3>Olivia</h3>
+                            <div class="profile-role">Personal Care Specialist</div>
+                            <div class="profile-traits">
+                                <span class="trait-tag">10 Years Exp.</span>
+                                <span class="trait-tag">Dignity-focused</span>
+                                <span class="trait-tag">Gentle</span>
+                            </div>
+                            <div class="hover-cta">View Full Profile &rarr;</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile 4 -->
+                <div class="col-lg-4 col-md-6 gs-reveal">
+                    <div class="profile-card">
+                        <div class="verified-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified
+                        </div>
+                        <div class="profile-img-wrap">
+                            <img src="assets/images/Ethan.png" alt="Ethan">
+                        </div>
+                        <div class="profile-content">
+                            <h3>Ethan</h3>
+                            <div class="profile-role">Respite Care Specialist</div>
+                            <div class="profile-traits">
+                                <span class="trait-tag">6 Years Exp.</span>
+                                <span class="trait-tag">Adaptable</span>
+                                <span class="trait-tag">Calming</span>
+                            </div>
+                            <div class="hover-cta">View Full Profile &rarr;</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile 5 -->
+                <div class="col-lg-4 col-md-6 gs-reveal" style="transition-delay: 0.1s">
+                    <div class="profile-card">
+                        <div class="verified-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified
+                        </div>
+                        <div class="profile-img-wrap">
+                            <img src="assets/images/Ava.png" alt="Ava">
+                        </div>
+                        <div class="profile-content">
+                            <h3>Ava</h3>
+                            <div class="profile-role">Dementia Care Specialist</div>
+                            <div class="profile-traits">
+                                <span class="trait-tag">12 Years Exp.</span>
+                                <span class="trait-tag">Specialized</span>
+                                <span class="trait-tag">Empathetic</span>
+                            </div>
+                            <div class="hover-cta">View Full Profile &rarr;</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile 6 -->
+                <div class="col-lg-4 col-md-6 gs-reveal" style="transition-delay: 0.2s">
+                    <div class="profile-card">
+                        <div class="verified-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg> Verified
+                        </div>
+                        <div class="profile-img-wrap">
+                            <img src="assets/images/Liam.png" alt="Liam">
+                        </div>
+                        <div class="profile-content">
+                            <h3>Liam</h3>
+                            <div class="profile-role">Recovery Support Specialist</div>
+                            <div class="profile-traits">
+                                <span class="trait-tag">7 Years Exp.</span>
+                                <span class="trait-tag">Detail-oriented</span>
+                                <span class="trait-tag">Encouraging</span>
+                            </div>
+                            <div class="hover-cta">View Full Profile &rarr;</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Become a Caregiver CTA -->
+    <section class="careers-cta text-center gs-reveal">
+        <div class="container">
+            <h2 class="mb-3">A Career Built Around Meaning.</h2>
+            <p class="text-secondary mb-5 mx-auto" style="max-width: 600px;">Join a community of caregivers who believe professional care can also be deeply human.</p>
+            
+            <form class="careers-cta-form" action="#">
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control bg-dark border-secondary text-dark py-3 px-4" placeholder="Your email address" style="border-radius: 100px 0 0 100px;" required>
+                    <button class="btn btn-primary-custom m-0" style="border-radius: 0 100px 100px 0; border-left: none;" type="submit">Explore Opportunities &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+            <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-12 col-lg-4 text-start">
+                    <div class="footer-brand mb-3 d-flex align-items-center">
+                        <img src="assets/images/website-logo.png" alt="CareNest Logo" style="height: 40px; width: auto;" class="me-2">
+                        CARENEST
+                    </div>
+                                        <p class="text-secondary mb-2">Care That Feels Like Home.</p>
+                    <p class="text-secondary mb-5 pb-3" style="font-size: 0.95rem;">Providing compassionate, personalized support for your loved ones. Our dedicated professionals adapt to your family's unique routines. Experience peace of mind with our trusted and reliable care.</p>
+                    
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>Care</h4>
+                    <ul>
+                        <li><a href="services.html">Services Overview</a></li>
+                        <li><a href="services.html">Senior Care</a></li>
+                        <li><a href="services.html">Companion Care</a></li>
+                        <li><a href="services.html">Personal Care</a></li>
+                        <li><a href="services.html">Respite Care</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-2 footer-links">
+                    <h4>About</h4>
+                    <ul>
+                        <li><a href="about.html">Our Story</a></li>
+                        <li><a href="caregivers.html">Caregivers</a></li>
+                        <li><a href="about.html">Our Approach</a></li>
+                        <li><a href="resources.html">Family Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-12 col-lg-4 footer-links">
+                    <h4>Support & Connect</h4>
+                    <ul class="d-flex gap-3 mb-4">
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></a></li>
+                        <li><a href="#"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></a></li>
+                    </ul>
+                    <h4>Newsletter</h4>
+                    <p class="text-secondary mb-3">Care insights, delivered thoughtfully.</p>
+                    <form class="d-flex gap-2" onsubmit="event.preventDefault();">
+                        <input type="email" class="form-control bg-transparent border-secondary text-dark" placeholder="Your email address" style="border-radius: 100px; padding-left: 1.5rem;">
+                        <button class="btn btn-outline-light rounded-circle" style="width: 45px; height: 45px; flex-shrink: 0;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg></button>                    </form>
+                </div>
+            </div>
+            <div class="row mt-5 pt-4 border-top border-secondary border-opacity-25">
+                <div class="col-12 text-center">
+                    <div class="text-secondary text-sm">&copy; 2026 CareNest. All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/three-bg.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
