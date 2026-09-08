@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrollTrigger: {
                     trigger: el,
                     start: "top 85%", // reveals when top of element hits 85% of viewport
-                    toggleActions: "play none none reverse"
+                    toggleActions: "play none none none"
                 }
             }
         );

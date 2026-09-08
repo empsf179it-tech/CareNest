@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -97,16 +97,18 @@
 
         /* Specific Card Styles for Variety */
         .card-style-dark {
-            background: var(--bg-surface-elevated);
+            background: #1a1a1a;
+        }
+        .card-style-dark h3, .card-style-dark p, .card-style-dark .read-more {
+            color: #ffffff !important;
         }
 
         .card-style-accent {
-            background: linear-gradient(145deg, var(--bg-surface), #151515);
+            background: linear-gradient(145deg, #2c2c2c, #111111);
             border-color: rgba(230, 216, 195, 0.2);
         }
-
-        .card-style-accent h3 {
-            font-size: 1.35rem;
+        .card-style-accent h3, .card-style-accent p, .card-style-accent .read-more {
+            color: #ffffff !important;
         }
 
         /* Resource CTA */
@@ -226,7 +228,7 @@
                 </div>
 
                 <div class="col-lg-4 col-md-6">
-                    <article class="editorial-card">
+                    <article class="editorial-card card-style-dark">
                         <img src="assets/images/post_hospital.jpg" alt="Safer Home" class="card-img-top">
                         <div class="card-body-custom d-flex flex-column flex-grow-1">
                             <span class="resource-category">Safety</span>
@@ -273,7 +275,7 @@
                 </div>
 
                 <div class="col-lg-4 col-md-6">
-                    <article class="editorial-card">
+                    <article class="editorial-card card-style-dark">
                         <div class="card-body-custom d-flex flex-column flex-grow-1">
                             <span class="resource-category">Planning</span>
                             <h3>Building a Care Plan</h3>
